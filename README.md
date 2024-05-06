@@ -17,7 +17,7 @@ First, you need a build of the Unity project found here (TBD link) that outputs 
 - **Left Bumper**
   - Presses Tab
 - **Right Bumper**
-  - Hold to activate "hot slot" mode
+  - Hold to activate "hot slot" mode if used with D-Pad
     - In hot slot mode, use the D-Pad to control which slot to select, and A to select it
     - Your mouse will return to its previous position upon release of the bumper
     - See D-Pad section for more details
@@ -43,13 +43,26 @@ First, you need a build of the Unity project found here (TBD link) that outputs 
       - If you need to left click, you can release the right bumper as there are no further actions you would need to take
     - All other controls are disabled while you are holding the right bumper
     - The selected hot slot is saved, so the next time you press the right bumper your cursor will be in the same position
-  - Press and hold the down button to initiate a scroll down
-  - Press and hold the up button to initiate a scroll up
+  - If holding the Left Bumper, each direction is mapped to a voice command shortcut
+    - N: Follow me (v+e+e)
+    - NE: Hi (v+s+s)
+    - E: Bye (v+s+a)
+    - SE: Laugh (v+x+w)
+    - S: Attack (v+w+e)
+    - SW: Battlecry (v+w+r)
+    - W: Hold (v+w+x)
+    - NW: Guard (v+w+f)
+  - Press and hold the down button to initiate a scroll down (if not in hot slot mode)
+  - Press and hold the up button to initiate a scroll up (if not in hot slot mode)
 - **A**
   - Left click
 - **B**
   - Right Click
 - **X**
   - Rest
+  - If holding right bumper, toggle Journal
+  - If holding left bumper, toggle character sheet
 - **Y**
   - Toggle Map
+  - If holding right bumper, toggle Spell Book
+  - If holding left bumper, toggle Player List

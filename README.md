@@ -43,7 +43,7 @@ First, you need a build of the Unity project found here (TBD link) that outputs 
       - If you need to left click, you can release the right bumper as there are no further actions you would need to take
     - All other controls are disabled while you are holding the right bumper
     - The selected hot slot is saved, so the next time you press the right bumper your cursor will be in the same position
-  - If holding the Left Bumper, each direction is mapped to a voice command shortcut
+  - If holding the Left Bumper, each direction is mapped to a voice command shortcut. Release the bumper to initiate the voiceover
     - N: Follow me (v+e+e)
     - NE: Hi (v+s+s)
     - E: Bye (v+s+a)
@@ -52,6 +52,12 @@ First, you need a build of the Unity project found here (TBD link) that outputs 
     - SW: Battlecry (v+w+r)
     - W: Hold (v+w+x)
     - NW: Guard (v+w+f)
+    - NES: Look here (v+e+w)
+    - ESW: Bored (v+s+x)
+    - SWN: Threaten (v+x+e)
+    - NS: Thanks (v+x+x)
+    - EW: Cheer (v+x+d)
+    - NESW: Cuss (v+x+c)
   - Press and hold the down button to initiate a scroll down (if not in hot slot mode)
   - Press and hold the up button to initiate a scroll up (if not in hot slot mode)
 - **A**

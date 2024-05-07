@@ -134,46 +134,95 @@ Run("./InputPipe/InputPipe.exe", "./InputPipe")
 ;Sleep(3000)
 
 MsgBox(0, $Title, "Begining mouse-jacking loop, press k to exit")
-$i = 0
+Local $i = 0
+Local $CircleLocked = 1
+Local $PRV_LStickIn = 0
+Local $CurrentCenter = $P_Center
 While (Not _IsPressed('4B'))
-	If $A = 0 Then 
-		MouseUp("primary")
-	EndIf
-	
-	If $LStickIn = 0 Then
-		MouseUp("secondary")
-	EndIf
-	
-	If $LMenu = 0 Then 
-		Send("{i up}")
-	EndIf
-	
-	If $RMenu = 0 Then 
-		Send("{ESC up}")
-	EndIf
-	
 	Local $LStick = FileRead($IP_LStick)
 	Local $LStickArr = _ArrayFromUnityVector2String($LStick)
 	Local $RStick = FileRead($IP_RStick)
 	Local $RStickArr = _ArrayFromUnityVector2String($RStick)
+
 	If ($LStickArr[0] <> $ParseError And ($LStickArr[0] <> 0.00 Or $LStickArr[1] <> 0.00) And ($RStickArr[0] = 0.00 Or $RStickArr[1] = 0.00)) Or (($RStickArr[0] = 0.00 And $RStickArr[1] = 0.00) And ($LStickArr[0] = 0.00 And $LStickArr[1] = 0.00)) Then
-		MouseMove($P_Center[0] + $LStickArr[0] * $MouseOffset, $P_Center[1] - $LStickArr[1] * $MouseOffset, 0) ;Move to position
+		If $CircleLocked = 1 Then
+			MouseMove($CurrentCenter[0] + $LStickArr[0] * $MouseOffset, $CurrentCenter[1] - $LStickArr[1] * $MouseOffset, 0) ;Move to position
+		Else
+			Local $Current = MouseGetPos()
+			MouseMove($Current[0] + $LStickArr[0] * $MouseSpeed, $Current[1] - $LStickArr[1] * $MouseSpeed, 0)
+		EndIf
 	EndIf
-	If $RStickArr[0] <> $ParseError And ($RStickArr[0] <> 0.00 Or $RStickArr[1] <> 0.00) And ($LStickArr[0] = 0.00 Or $LStickArr[1] = 0.00) Then
+	
+	If $RStickArr[0] <> $ParseError Then
+		If $RStickArr[0] > 0.00 Then
+			If Not _IsPressed('27') Then
+				Send("{RIGHT down}")
+			EndIf
+			If _IsPressed('25') Then
+				Send("{LEFT up}")
+			EndIf
+		ElseIf $RStickArr[0] < 0.00 Then
+			If Not _IsPressed('25') Then
+				Send("{LEFT down}")
+			EndIf
+			If _IsPressed('27') Then
+				Send("{RIGHT up}")
+			EndIf
+		ElseIf $RStickArr[0] = 0.00 Then
+			If _IsPressed('27') Then
+				Send("{RIGHT up}")
+			EndIf
+			If _IsPressed('25') Then
+				Send("{LEFT up}")
+			EndIf
+		EndIf
+	EndIf
+	
+	$LStickIn = FileRead($IP_LStickIn)
+	If $LStickIn = 1 And $PRV_LStickIn <> $LStickIn Then
+		If $CircleLocked = 1 Then
+			$CircleLocked = 0
+		Else
+			$CurrentCenter = $P_Center
+			$CircleLocked = 1
+			$ITT_CircleLocked_i = 0
+		EndIf
+	EndIf
+	$PRV_LStickIn = $LStickIn
+		
+	$RStickIn = FileRead($IP_RStickIn)
+	If Not _IsPressed('04') And $RStickIn = 1 Then
+		MouseDown('middle')
+		$CircleLocked = 0
+	ElseIf _IsPressed('04') And $RStickIn = 0 Then
+		MouseUp('middle')
+		$CurrentCenter = $P_Center
+		$CircleLocked = 1
+	EndIf
+	
+	If $RStickIn = 1 And $RStickArr[0] <> $ParseError Then
 		Local $Current = MouseGetPos()
-		MouseMove($Current[0] + $RStickArr[0] * $MouseSpeed, $Current[1] - $RStickArr[1] * $MouseSpeed, 0)
+		MouseMove($Current[0] + $RStickArr[0] * $MouseSpeed, $Current[1] - $RStickArr[1] * $MouseSpeed, 0)	
 	EndIf
 	
 	$A = FileRead($IP_A)
 	If Not _IsPressed('01') And $A = 1 Then
 		MouseDown("primary")
+	ElseIf _IsPressed('01') And $A = 0 Then
+		MouseUp("primary")
 	EndIf
-	
-	$LStickIn = FileRead($IP_LStickIn)
-	If Not _IsPressed('02') And $LStickIn = 1 Then
+
+	$B = FileRead($IP_B)
+	If Not _IsPressed('02') And $B = 1 Then
 		MouseDown('secondary')
+		If $CircleLocked = 0 Then
+				$CurrentCenter = MouseGetPos()
+				$CircleLocked = 1
+		EndIf
+	ElseIf _IsPressed('02') And $B = 0 Then
+		MouseUp("secondary")
 	EndIf
-	
+
 	$RTrigger = FileRead($IP_RTrigger)
 	If $RTrigger > 0.5 Then
 		Send("{UP down}")
@@ -191,27 +240,29 @@ While (Not _IsPressed('4B'))
 	$RBump = FileRead($IP_RBump)
 	If $RBump = 1 Then
 		Send("{RIGHT down}")
-	EndIf
-	If $RBump = 0 Then
+	Else
 		Send("{RIGHT up}")
 	EndIf
 	
 	$LBump = FileRead($IP_LBump)
 	If $LBump = 1 Then
 		Send("{LEFT down}")
-	EndIf
-	If $LBump = 0 Then
+	Else
 		Send("{LEFT up}")
 	EndIf
 	
 	$LMenu = FileRead($IP_LMenu)
-	If $LMenu = 1 Then
+	If Not _IsPressed('49') And $LMenu = 1 Then
 		Send("{i down}")
+	ElseIf _IsPressed('49') And $LMenu = 0 Then
+		Send("{i up}")
 	EndIf
 	
 	$RMenu = FileRead($IP_RMenu)
 	If $RMenu = 1 Then
 		Send("{ESC down}")
+	Else
+		Send("{ESC up}")
 	EndIf
 	
 	Sleep($BasePeriod)

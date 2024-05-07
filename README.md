@@ -9,8 +9,8 @@ First, you need a build of the Unity project found here (TBD link) that outputs 
 - **Left Stick**
   - Moves the mouse relative to your character or last selected center position
   - Press-in to unlock from its current position and move the cursur freely
-  - Press-in again to re-lock from the current position
-  - Double press-in the stick to reset your cursor position to your character
+  - Press-in again to re-lock to your character
+  - Press B while unlocked to re-lock at that position
 - **Right Stick**
   - Moves the camera left or right (vertical axis is unused)
   - Press-in and hold to "free rotate" the camera
@@ -43,7 +43,7 @@ First, you need a build of the Unity project found here (TBD link) that outputs 
       - If you need to left click, you can release the right bumper as there are no further actions you would need to take
     - All other controls are disabled while you are holding the right bumper
     - The selected hot slot is saved, so the next time you press the right bumper your cursor will be in the same position
-  - If holding the Left Bumper, each direction is mapped to a voice command shortcut. Release the bumper to initiate the voiceover
+  - If holding the Left Bumper, each direction is mapped to a voice command shortcut. Release the bumper to initiate the voiceover. The order in which directions are pressed does not matter.
     - N: Follow me (v+e+e)
     - NE: Hi (v+s+s)
     - E: Bye (v+s+a)
@@ -64,6 +64,7 @@ First, you need a build of the Unity project found here (TBD link) that outputs 
   - Left click
 - **B**
   - Right Click
+  - While not locked on your character, press B to lock at the current position (in order to access the circle menu at that point)
 - **X**
   - Rest
   - If holding right bumper, toggle Journal
